@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Client, Databases, Query } from 'appwrite'
 import './App.css'
+import EventListeners from './EventListeners'
 
 function App() {
   const [aggregatedScores, setAggregatedScores] = useState<any[]>([])
@@ -54,39 +55,42 @@ function App() {
   }
 
   return (
-    <div className="app-container">
-      <h1 className="title">Leaderboard</h1>
-      <div className="table-container">
-        <table className="leaderboard-table" role="table">
-          <thead>
-            <tr>
-              <th scope="col" aria-sort="none">Rank</th>
-              <th scope="col" aria-sort="none">Team Name</th>
-              <th scope="col" aria-sort="descending">Points</th>
-            </tr>
-          </thead>
-          <tbody>
-            {isLoading ? (
-              Array.from({ length: 5 }).map((_, i) => (
-                <tr key={i}>
-                  <td><div className="skeleton" style={{height: "24px"}}/></td>
-                  <td><div className="skeleton" style={{height: "24px"}}/></td>
-                  <td><div className="skeleton" style={{height: "24px"}}/></td>
-                </tr>
-              ))
-            ) : (
-              aggregatedScores.map((entry, index) => (
-                <tr key={entry.team_name}>
-                  <td aria-label="Rank">{index + 1}</td>
-                  <td aria-label="Team Name">{entry.team_name}</td>
-                  <td aria-label="Score">{entry.score.toLocaleString()}</td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+    <>
+      <EventListeners />
+      <div className="app-container">
+        <h1 className="title">Leaderboard</h1>
+        <div className="table-container">
+          <table className="leaderboard-table" role="table">
+            <thead>
+              <tr>
+                <th scope="col" aria-sort="none">Rank</th>
+                <th scope="col" aria-sort="none">Team Name</th>
+                <th scope="col" aria-sort="descending">Points</th>
+              </tr>
+            </thead>
+            <tbody>
+              {isLoading ? (
+                Array.from({ length: 5 }).map((_, i) => (
+                  <tr key={i}>
+                    <td><div className="skeleton" style={{height: "24px"}}/></td>
+                    <td><div className="skeleton" style={{height: "24px"}}/></td>
+                    <td><div className="skeleton" style={{height: "24px"}}/></td>
+                  </tr>
+                ))
+              ) : (
+                aggregatedScores.map((entry, index) => (
+                  <tr key={entry.team_name}>
+                    <td aria-label="Rank">{index + 1}</td>
+                    <td aria-label="Team Name">{entry.team_name}</td>
+                    <td aria-label="Score">{entry.score.toLocaleString()}</td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 
